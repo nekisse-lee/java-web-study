@@ -12,11 +12,11 @@ import java.util.List;
 
 @WebServlet(value = "/viewMembers", name = "ViewServlet")
 public class ViewServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request,HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
-        PrintWriter out=response.getWriter();
+        PrintWriter out = response.getWriter();
         List membersList = (List) request.getAttribute("membersList");
         out.print("<html><body>");
         out.print("<table border=1><tr align='center' bgcolor='lightgreen'>");
