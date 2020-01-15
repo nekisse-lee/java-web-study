@@ -1,4 +1,4 @@
-package sec02.ex01;
+package pro06.sec02.ex01;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
