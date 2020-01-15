@@ -22,7 +22,8 @@ public class SetCookieValue extends HttpServlet {
         PrintWriter out = response.getWriter();
         Date date = new Date();
         Cookie c = new Cookie("cookieTest", URLEncoder.encode("JSP 프로그래밍입니다.", "utf-8"));
-        c.setMaxAge(24 * 60 * 60);//24시간을 유효시간으로 지정
+//        c.setMaxAge(24 * 60 * 60);//24시간을 유효시간으로 지정
+        c.setMaxAge(-1);
 
         response.addCookie(c);
 
