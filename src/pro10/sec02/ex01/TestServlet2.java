@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(value = "/pro10first/*",name = "TestServlet2")
+//@WebServlet(value = "/pro10first/*",name = "TestServlet2")
 public class TestServlet2 extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

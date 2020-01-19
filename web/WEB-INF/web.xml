@@ -20,9 +20,17 @@
         <param-name>menu_goods</param-name>
         <param-value>상품조회 상품등록 상품수정 상품삭제</param-value>
     </context-param>
-
-<!-- encoding Filter-->
     <filter>
+        <filter-name>encode</filter-name>
+        <filter-class>pro10.sec03.ex01.EncoderFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>encode</filter-name>
+        <url-pattern>/pro10Sec03Login</url-pattern>
+    </filter-mapping>
+
+    <!-- encoding Filter-->
+ <!--   <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
         <init-param>
@@ -37,7 +45,9 @@
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    </filter-mapping>-->
+
+
 
 
     <listener>

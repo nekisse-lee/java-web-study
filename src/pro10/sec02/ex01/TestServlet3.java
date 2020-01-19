@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 //@WebServlet(value = "*.do",name = "TestServlet3")
-@WebServlet(value = "/*",name = "TestServlet3")
+//@WebServlet(value = "/*",name = "TestServlet3")
 public class TestServlet3 extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
