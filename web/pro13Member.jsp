@@ -6,19 +6,44 @@
 %>
 
 <jsp:useBean id="m" class="pro13.sec01.ex01.MemberBean" scope="page"/>
+<jsp:setProperty name="m" property="*"/>
+
+<%--
+<jsp:setProperty name="m" property="id"/>
+<jsp:setProperty name="m" property="pwd"/>
+<jsp:setProperty name="m" property="name"/>
+<jsp:setProperty name="m" property="email"/>
+--%>
+
+<%--
+<jsp:setProperty name="m" property="id" param="id"/>
+<jsp:setProperty name="m" property="pwd" param="pwd"/>
+<jsp:setProperty name="m" property="name" param="name"/>
+<jsp:setProperty name="m" property="email" param="email"/>
+--%>
+
+<%--
+<jsp:setProperty name="m" property="id" value='<%= request.getParameter("id") %>'/>
+<jsp:setProperty name="m" property="pwd" value='<%= request.getParameter("pwd") %>'/>
+<jsp:setProperty name="m" property="name" value='<%= request.getParameter("name") %>'/>
+<jsp:setProperty name="m" property="email" value='<%= request.getParameter("email") %>'/>
+--%>
 
 <%
-    String id = request.getParameter("id");
-    String pwd = request.getParameter( "pwd");
-    String name = request.getParameter("name");
-    String email = request.getParameter("email");
+    /*
+        String id = request.getParameter("id");
+        String pwd = request.getParameter( "pwd");
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        */
 
 //    MemberBean m = new MemberBean(id, pwd, name, email);
+    /*
     m.setId(id);
     m.setName(name);
     m.setPwd(pwd);
     m.setEmail(email);
-
+*/
     MemberDAO memberDao = new MemberDAO();
     memberDao.addMember(m);
     List membersList = memberDao.listMembers();
@@ -37,7 +62,6 @@
         <td width="11%">이메일</td>
         <td width="5%">가입일</td>
     </tr>
-    m
     <%
         if (membersList.size() == 0) {
     %>
