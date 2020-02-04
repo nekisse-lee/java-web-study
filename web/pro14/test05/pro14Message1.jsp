@@ -14,7 +14,7 @@
 <body>
 
 
-<%--<fmt:setLocale value="en_US"/>--%>
+<fmt:setLocale value="en_US"/>
 <%--<fmt:setLocale value="ko_KR" />--%>
 
 <fmt:bundle basename="member">
