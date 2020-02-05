@@ -9,17 +9,32 @@
 %>
 <html>
 <head>
-    <meta charset="TF-8">
-    <jsp:useBean  id="m" class="pro14.sec02.ex01.MemberBean" />
-    <jsp:setProperty name="m" property="*"  />
+    <meta charset="UTF-8">
     <%
-        MemberDAO memDAO=new MemberDAO();
-        memDAO.addMember(m);
-        List membersList =memDAO.listMembers();
+        String command = request.getParameter("command");
+        MemberDAO memDAO = new MemberDAO();
+        List membersList = null;
+        if (command.equals("addMember")) {
+
+    %>
+    <jsp:useBean id="m" class="pro14.sec02.ex01.MemberBean"/>
+
+    <jsp:setProperty name="m" property="*"/>
+    <%
+            memDAO.addMember(m);
+            membersList = memDAO.listMembers();
+        } else if (command.equals("search")) {
+            String name = request.getParameter("name");
+            MemberBean memberBean = new MemberBean();
+            memberBean.setName(name);
+            membersList = memDAO.listMembers(memberBean);
+
+        }
         request.setAttribute("membersList", membersList);
+
     %>
 </head>
 <body>
-<jsp:forward  page="membersList.jsp" />
+<jsp:forward page="membersList.jsp"/>
 </body>
 </html>

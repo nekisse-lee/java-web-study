@@ -1,4 +1,6 @@
 package pro14.sec02.ex01;
+
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -39,7 +41,7 @@ public class MemberDAO {
                 String name = rs.getString("name");
                 String email = rs.getString("email");
                 Date joinDate = rs.getDate("joinDate");
-                MemberBean vo = new MemberBean();
+                pro14.sec02.ex01.MemberBean vo = new pro14.sec02.ex01.MemberBean();
                 vo.setId(id);
                 vo.setPwd(pwd);
                 vo.setName(name);
@@ -56,7 +58,48 @@ public class MemberDAO {
         return list;
     }
 
-    public void addMember(MemberBean memberBean) {
+    public List listMembers(MemberBean memberBean) {
+        ArrayList membersList = new ArrayList();
+        String _name = memberBean.getName();
+
+        try {
+            con = dataFactory.getConnection();
+            String query = "select * from t_member";
+            if ((_name != null) && _name.length() != 0) {
+                query += " where name=?";
+                pstmt = con.prepareStatement(query);
+                pstmt.setString(1, _name);
+            } else {
+                pstmt = con.prepareStatement(query);
+            }
+
+            System.out.println("prepareStatement: " + query);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String id = rs.getString("id");
+                String pwd = rs.getString("pwd");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                Date joinDate = rs.getDate("joinDate");
+                MemberBean vo = new MemberBean();
+                vo.setId(id);
+                vo.setPwd(pwd);
+                vo.setName(name);
+                vo.setEmail(email);
+                vo.setJoinDate(joinDate);
+                membersList.add(vo);
+            }
+            rs.close();
+            pstmt.close();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return membersList;
+    }
+
+
+    public void addMember(pro14.sec02.ex01.MemberBean memberBean) {
         try {
             Connection con = dataFactory.getConnection();
             String id = memberBean.getId();

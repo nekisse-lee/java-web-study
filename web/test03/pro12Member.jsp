@@ -19,7 +19,7 @@
 <%
     request.setCharacterEncoding( "utf-8" );
     String _name = request.getParameter("name");
-    MemberVO memberVO = new MemberVO();
+    MemberBean memberVO = new MemberBean();
     memberVO.setName(_name);
     MemberDAO dao=new MemberDAO();
     List membersList=dao.listMember(memberVO);
@@ -34,7 +34,7 @@
     </tr>
     <%
         for (int i=0; i < membersList.size(); i++){
-            MemberVO vo=(MemberVO) membersList.get(i);
+            MemberBean vo=(MemberBean) membersList.get(i);
             String id=vo.getId();
             String pwd=vo.getPwd();
             String name=vo.getName();

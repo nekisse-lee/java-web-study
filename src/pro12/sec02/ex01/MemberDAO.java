@@ -7,7 +7,6 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +27,7 @@ public class MemberDAO {
         }
     }
 
-    public List listMember(MemberVO memberVO) {
+    public List listMember(MemberBean memberVO) {
         ArrayList membersList = new ArrayList();
         String _name = memberVO.getName();
 
@@ -51,7 +50,7 @@ public class MemberDAO {
                 String name = rs.getString("name");
                 String email = rs.getString("email");
                 Date joinDate = rs.getDate("joinDate");
-                MemberVO vo = new MemberVO();
+                MemberBean vo = new MemberBean();
                 vo.setId(id);
                 vo.setPwd(pwd);
                 vo.setName(name);

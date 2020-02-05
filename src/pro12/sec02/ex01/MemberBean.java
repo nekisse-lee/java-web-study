@@ -2,14 +2,14 @@ package pro12.sec02.ex01;
 
 import java.util.Date;
 
-public class MemberVO {
+public class MemberBean {
     private String id;
     private String pwd;
     private String name;
     private String email;
     private Date joinDate;
 
-    public MemberVO() {
+    public MemberBean() {
         System.out.println("MemberVO 생성자 호출");
     }
 
