@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>도서 정보 출력창</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript">
+        function fn_process() {
+            $.ajax({
+                type: "post",
+                async: false,
+                url: "http://localhost:8080/webShop/mem2",
+                dataType: "xml",
+                success: function (info, textStatus) {
+                    $(info).find("member").each(function () {
+                        var id = $(this).find("id").text();
+                        var pwd = $(this).find("pwd").text();
+                        var name = $(this).find("name").text();
+                        $("#memberInfo").append(
+                            "<p>" + id + "," + pwd + "," + name + "</p>"
+                        );
+                    });
+                },
+                error: function (data, textStatus) {
+                    alert("에러가 발생했습니다.");
+                },
+                complete: function (data, textStatus) {
+                    //alert("작업을완료 했습니다");
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<div id="memberInfo"></div>
+<input type=button value="회원정보 요청" onclick="fn_process()">
+</body>
+</html>
