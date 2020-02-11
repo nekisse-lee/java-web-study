@@ -16,7 +16,7 @@
                 output += "이름: " + jsonObj.name+"<br>";
                 output += "나이: " + jsonObj.age+"<br>";
                 output += "성별: " + jsonObj.gender+"<br>";
-                output += "별명: " + jsonObj.nickname+"<br>";
+                output += "별명: " + jsonObj.nickname+"<br><br><br>";
                 $("#output").html(output);
             });
         });
