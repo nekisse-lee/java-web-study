@@ -41,7 +41,7 @@
         </tr>
         <tr>
             <td width="200"><p align="right">가입일</td>
-            <td width="400"><input type="text" name="joinDate" value="${memInfo.joinDate }" disabled></td>
+            <td width="400"><input type  ="text" name="joinDate" value="${memInfo.joinDate }" disabled></td>
         </tr>
         <tr align="center">
             <td colspan="2" width="400"><input type="submit" value="수정하기">
