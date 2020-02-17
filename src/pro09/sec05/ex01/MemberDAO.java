@@ -72,6 +72,7 @@ public class MemberDAO {
             pstmt.setString(4, email);
             pstmt.executeUpdate();
             pstmt.close();
+            con.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

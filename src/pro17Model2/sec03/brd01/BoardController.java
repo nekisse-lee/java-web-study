@@ -12,7 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "BoardController1", value = "/board/*")
+//@WebServlet(name = "BoardController1", value = "/board/*")
 public class BoardController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     BoardService boardService;
