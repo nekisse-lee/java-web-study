@@ -1,4 +1,4 @@
-package pro15.sec01.ex02;
+package pro17Model2.sec03.common;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,15 +10,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-//@WebServlet(name = "FileDownload", value = "/download.do")
-public class FileDownload extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+@WebServlet(name = "FileDownloadController", value = "/download.do")
+public class FileDownloadController extends HttpServlet {
+    private static String ARTICLE_IMAGE_REPO = "/Users/nekisse/Documents/intellij_workspace/webShop/repo";
+
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      *      response)
      */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
         doHandle(request, response);
     }
 
@@ -33,15 +34,16 @@ public class FileDownload extends HttpServlet {
     private void doHandle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html; charset=utf-8");
-        String file_repo = "/Users/nekisse/Documents/intellij_workspace/webShop/repo";
-        String fileName = (String) request.getParameter("fileName");
-        System.out.println("fileName=" + fileName);
+        String imageFileName = (String) request.getParameter("imageFileName");
+        String articleNO = request.getParameter("articleNO");
+        System.out.println("imageFileName=" + imageFileName);
         OutputStream out = response.getOutputStream();
-        String downFile = file_repo + "/" + fileName;
-        File f = new File(downFile);
+        String path = ARTICLE_IMAGE_REPO + "/" + articleNO + "/" + imageFileName;
+        File imageFile = new File(path);
+
         response.setHeader("Cache-Control", "no-cache");
-        response.addHeader("Content-disposition", "attachment; fileName=" + fileName);
-        FileInputStream in = new FileInputStream(f);
+        response.addHeader("Content-disposition", "attachment;fileName=" + imageFileName);
+        FileInputStream in = new FileInputStream(imageFile);
         byte[] buffer = new byte[1024 * 8];
         while (true) {
             int count = in.read(buffer);
