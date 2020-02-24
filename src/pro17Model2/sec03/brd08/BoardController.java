@@ -1,4 +1,4 @@
-package pro17Model2.sec03.brd07;
+package pro17Model2.sec03.brd08;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -21,21 +21,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//@WebServlet(name = "BoardController",value = "/board/*")
+@WebServlet(name = "BoardController", value = "/board/*")
 public class BoardController extends HttpServlet {
     private static String ARTICLE_IMAGE_REPO = "/Users/nekisse/Documents/intellij_workspace/webShop/repo";
     BoardService boardService;
     ArticleVO articleVO;
 
+    /**
+     * @see Servlet#init(ServletConfig)
+     */
     public void init(ServletConfig config) throws ServletException {
         boardService = new BoardService();
         articleVO = new ArticleVO();
     }
 
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     * response)
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doHandle(request, response);
     }
 
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+     * response)
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doHandle(request, response);
     }
@@ -50,15 +61,33 @@ public class BoardController extends HttpServlet {
         try {
             List<ArticleVO> articlesList = new ArrayList<ArticleVO>();
             if (action == null) {
-                articlesList = boardService.listArticles();
-                request.setAttribute("articlesList", articlesList);
-                nextPage = "/pro17/board06/listArticles.jsp";
+                String _section = request.getParameter("section");
+                String _pageNum = request.getParameter("pageNum");
+                int section = Integer.parseInt(((_section == null) ? "1" : _section));
+                int pageNum = Integer.parseInt(((_pageNum == null) ? "1" : _pageNum));
+                Map<String, Integer> pagingMap = new HashMap<String, Integer>();
+                pagingMap.put("section", section);
+                pagingMap.put("pageNum", pageNum);
+                Map articlesMap = boardService.listArticles(pagingMap);
+                articlesMap.put("section", section);
+                articlesMap.put("pageNum", pageNum);
+                request.setAttribute("articlesMap", articlesMap);
+                nextPage = "/pro17/board07/listArticles.jsp";
             } else if (action.equals("/listArticles.do")) {
-                articlesList = boardService.listArticles();
-                request.setAttribute("articlesList", articlesList);
-                nextPage = "/pro17/board06/listArticles.jsp";
+                String _section = request.getParameter("section");
+                String _pageNum = request.getParameter("pageNum");
+                int section = Integer.parseInt(((_section == null) ? "1" : _section));
+                int pageNum = Integer.parseInt(((_pageNum == null) ? "1" : _pageNum));
+                Map pagingMap = new HashMap();
+                pagingMap.put("section", section);
+                pagingMap.put("pageNum", pageNum);
+                Map articlesMap = boardService.listArticles(pagingMap);
+                articlesMap.put("section", section);
+                articlesMap.put("pageNum", pageNum);
+                request.setAttribute("articlesMap", articlesMap);
+                nextPage = "/pro17/board07/listArticles.jsp";
             } else if (action.equals("/articleForm.do")) {
-                nextPage = "/pro17/board06/articleForm.jsp";
+                nextPage = "/pro17/board07/articleForm.jsp";
             } else if (action.equals("/addArticle.do")) {
                 int articleNO = 0;
                 Map<String, String> articleMap = upload(request, response);
@@ -87,7 +116,7 @@ public class BoardController extends HttpServlet {
                 String articleNO = request.getParameter("articleNO");
                 articleVO = boardService.viewArticle(Integer.parseInt(articleNO));
                 request.setAttribute("article", articleVO);
-                nextPage = "/pro17/board06/viewArticle.jsp";
+                nextPage = "/pro17/board07/viewArticle.jsp";
             } else if (action.equals("/modArticle.do")) {
                 Map<String, String> articleMap = upload(request, response);
                 int articleNO = Integer.parseInt(articleMap.get("articleNO"));
@@ -107,7 +136,7 @@ public class BoardController extends HttpServlet {
                     File destDir = new File(ARTICLE_IMAGE_REPO + "/" + articleNO);
                     destDir.mkdirs();
                     FileUtils.moveFileToDirectory(srcFile, destDir, true);
-                    ;
+                    
                     File oldFile = new File(ARTICLE_IMAGE_REPO + "/" + articleNO + "/" + originalFileName);
                     oldFile.delete();
                 }
@@ -157,7 +186,7 @@ public class BoardController extends HttpServlet {
                 }
                 PrintWriter pw = response.getWriter();
                 pw.print("<script>" + "  alert('답글을 추가했습니다.');" + " location.href='" + request.getContextPath()
-                        + "/board/viewArticle.do?articleNO="+articleNO+"';" + "</script>");
+                        + "/board/viewArticle.do?articleNO=" + articleNO + "';" + "</script>");
                 return;
             }
 
@@ -168,7 +197,8 @@ public class BoardController extends HttpServlet {
         }
     }
 
-    private Map<String, String> upload(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private Map<String, String> upload(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         Map<String, String> articleMap = new HashMap<String, String>();
         String encoding = "utf-8";
         File currentDirPath = new File(ARTICLE_IMAGE_REPO);
@@ -196,7 +226,7 @@ public class BoardController extends HttpServlet {
 
                         String fileName = fileItem.getName().substring(idx + 1);
                         System.out.println("파일명:" + fileName);
-                        articleMap.put(fileItem.getFieldName(), fileName);  //익스플로러에서 업로드 파일의 경로 제거 후 map에 파일명 저장
+                        articleMap.put(fileItem.getFieldName(), fileName);  //익스플로러에서 업로드 파일의 경로 제거 후 map에 파일명 저장);
                         File uploadFile = new File(currentDirPath + "/temp/" + fileName);
                         fileItem.write(uploadFile);
 
