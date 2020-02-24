@@ -38,13 +38,15 @@ public class BoardDAO {
                     +"parentNO,"
                     +"title,"
                     +"id,"
-                    +"writeDate"
+                    +"writeDate,"
+                    +"newArticle"
                     +" from (select LEVEL as LVL, "
                     +"articleNO,"
                     +"parentNO,"
                     +"title,"
                     +"id,"
-                    +"writeDate"
+                    +"writeDate,"
+                    +"decode(round(sysdate - writedate), 0, 'true','false') NewArticle"
                     +" from t_board"
                     +" START WITH  parentNO=0"
                     +" CONNECT BY PRIOR articleNO = parentNO"
@@ -65,6 +67,8 @@ public class BoardDAO {
                 String title = rs.getString("title");
                 String id = rs.getString("id");
                 Date writeDate= rs.getDate("writeDate");
+                boolean newArticle = Boolean.parseBoolean(rs.getString("newArticle"));
+
                 ArticleVO article = new ArticleVO();
                 article.setLevel(level);
                 article.setArticleNO(articleNO);
@@ -72,6 +76,7 @@ public class BoardDAO {
                 article.setTitle(title);
                 article.setId(id);
                 article.setWriteDate(writeDate);
+                article.setNewArticle(newArticle);
                 articlesList.add(article);
             } //end while
             rs.close();

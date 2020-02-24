@@ -136,7 +136,7 @@ public class BoardController extends HttpServlet {
                     File destDir = new File(ARTICLE_IMAGE_REPO + "/" + articleNO);
                     destDir.mkdirs();
                     FileUtils.moveFileToDirectory(srcFile, destDir, true);
-                    
+
                     File oldFile = new File(ARTICLE_IMAGE_REPO + "/" + articleNO + "/" + originalFileName);
                     oldFile.delete();
                 }
