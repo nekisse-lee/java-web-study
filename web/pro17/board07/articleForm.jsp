@@ -35,6 +35,13 @@
 <form name="articleForm" method="post"   action="${contextPath}/board/addArticle.do"   enctype="multipart/form-data">
     <table border=0 align="center">
         <tr>
+            <td align="right">공지글 여 </td>
+            <td colspan="2">
+                <input type="radio" name="notice_yn" value="y"/>공지글
+                <input type="radio" name="notice_yn" value="n" checked/>일반글
+            </td>
+        </tr>
+        <tr>
             <td align="right">글제목: </td>
             <td colspan="2"><input type="text" size="67"  maxlength="500" name="title" /></td>
         </tr>

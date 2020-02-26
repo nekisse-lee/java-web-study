@@ -13,8 +13,11 @@ public class BoardService {
 
     public Map listArticles(Map<String, Integer> pagingMap) {
         Map articlesMap = new HashMap();
-        List<ArticleVO> articlesList = boardDAO.selectAllArticles(pagingMap);
+//        List<ArticleVO> articlesList = boardDAO.selectAllArticles(pagingMap);
+        List<ArticleVO> noticeArticleList = boardDAO.selectAllArticles(pagingMap, "y");
+        List<ArticleVO> articlesList = boardDAO.selectAllArticles(pagingMap, "n");
         int totArticles = boardDAO.selectTotArticles();
+        articlesMap.put("noticeArticlesList", noticeArticleList);
         articlesMap.put("articlesList", articlesList);
         articlesMap.put("totArticles", totArticles);
         //articlesMap.put("totArticles", 170);

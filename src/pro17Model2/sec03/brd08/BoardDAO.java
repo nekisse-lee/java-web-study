@@ -26,47 +26,47 @@ public class BoardDAO {
         }
     }
 
-    public List selectAllArticles(Map pagingMap){
+    public List selectAllArticles(Map pagingMap) {
         List articlesList = new ArrayList();
-        int section = (Integer)pagingMap.get("section");
-        int pageNum=(Integer)pagingMap.get("pageNum");
-        try{
+        int section = (Integer) pagingMap.get("section");
+        int pageNum = (Integer) pagingMap.get("pageNum");
+        try {
             conn = dataFactory.getConnection();
-            String query ="SELECT * FROM ( "
-                    + "select ROWNUM  as recNum,"+"LVL,"
-                    +"articleNO,"
-                    +"parentNO,"
-                    +"title,"
-                    +"id,"
-                    +"writeDate,"
-                    +"newArticle"
-                    +" from (select LEVEL as LVL, "
-                    +"articleNO,"
-                    +"parentNO,"
-                    +"title,"
-                    +"id,"
-                    +"writeDate,"
-                    +"decode(round(sysdate - writedate), 0, 'true','false') NewArticle"
-                    +" from t_board"
-                    +" START WITH  parentNO=0"
-                    +" CONNECT BY PRIOR articleNO = parentNO"
-                    +"  ORDER SIBLINGS BY articleNO DESC)"
-                    +") "
-                    +" where recNum between(?-1)*100+(?-1)*10+1 and (?-1)*100+?*10";
+            String query = "SELECT * FROM ( "
+                    + "select ROWNUM  as recNum," + "LVL,"
+                    + "articleNO,"
+                    + "parentNO,"
+                    + "title,"
+                    + "id,"
+                    + "writeDate,"
+                    + "newArticle"
+                    + " from (select LEVEL as LVL, "
+                    + "articleNO,"
+                    + "parentNO,"
+                    + "title,"
+                    + "id,"
+                    + "writeDate,"
+                    + "decode(round(sysdate - writedate), 0, 'true','false') NewArticle"
+                    + " from t_board"
+                    + " START WITH  parentNO=0"
+                    + " CONNECT BY PRIOR articleNO = parentNO"
+                    + "  ORDER SIBLINGS BY articleNO DESC)"
+                    + ") "
+                    + " where recNum between(?-1)*100+(?-1)*10+1 and (?-1)*100+?*10";
             System.out.println(query);
-            pstmt= conn.prepareStatement(query);
+            pstmt = conn.prepareStatement(query);
             pstmt.setInt(1, section);
             pstmt.setInt(2, pageNum);
             pstmt.setInt(3, section);
             pstmt.setInt(4, pageNum);
-            ResultSet rs =pstmt.executeQuery();
-            while(rs.next()){
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
                 int level = rs.getInt("lvl");
                 int articleNO = rs.getInt("articleNO");
                 int parentNO = rs.getInt("parentNO");
                 String title = rs.getString("title");
                 String id = rs.getString("id");
-                Date writeDate= rs.getDate("writeDate");
+                Date writeDate = rs.getDate("writeDate");
                 boolean newArticle = Boolean.parseBoolean(rs.getString("newArticle"));
 
                 ArticleVO article = new ArticleVO();
@@ -82,7 +82,72 @@ public class BoardDAO {
             rs.close();
             pstmt.close();
             conn.close();
-        }catch(Exception e){
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return articlesList;
+    }
+
+    public List selectAllArticles(Map pagingMap, String notice_yn) {
+        List articlesList = new ArrayList();
+        int section = (Integer) pagingMap.get("section");
+        int pageNum = (Integer) pagingMap.get("pageNum");
+        try {
+            conn = dataFactory.getConnection();
+            String query = "SELECT * FROM ( "
+                    + "select ROWNUM  as recNum," + "LVL,"
+                    + "articleNO,"
+                    + "parentNO,"
+                    + "title,"
+                    + "id,"
+                    + "writeDate,"
+                    + "newArticle"
+                    + " from (select LEVEL as LVL, "
+                    + "articleNO,"
+                    + "parentNO,"
+                    + "title,"
+                    + "id,"
+                    + "writeDate,"
+                    + "decode(round(sysdate - writedate), 0, 'true','false') NewArticle"
+                    + " from t_board"
+                    + " where NOTICE_YN = ? "
+                    + " START WITH  parentNO=0"
+                    + " CONNECT BY PRIOR articleNO = parentNO"
+                    + "  ORDER SIBLINGS BY articleNO DESC)"
+                    + ") "
+                    + " where recNum between(?-1)*100+(?-1)*10+1 and (?-1)*100+?*10";
+
+            System.out.println(query);
+            pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, notice_yn);
+            pstmt.setInt(2, section);
+            pstmt.setInt(3, pageNum);
+            pstmt.setInt(4, section);
+            pstmt.setInt(5, pageNum);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int level = rs.getInt("lvl");
+                int articleNO = rs.getInt("articleNO");
+                int parentNO = rs.getInt("parentNO");
+                String title = rs.getString("title");
+                String id = rs.getString("id");
+                Date writeDate = rs.getDate("writeDate");
+                boolean newArticle = Boolean.parseBoolean(rs.getString("newArticle"));
+
+                ArticleVO article = new ArticleVO();
+                article.setLevel(level);
+                article.setArticleNO(articleNO);
+                article.setParentNO(parentNO);
+                article.setTitle(title);
+                article.setId(id);
+                article.setWriteDate(writeDate);
+                article.setNewArticle(newArticle);
+                articlesList.add(article);
+            } //end while
+            rs.close();
+            pstmt.close();
+            conn.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return articlesList;
@@ -153,8 +218,9 @@ public class BoardDAO {
             String content = article.getContent();
             String id = article.getId();
             String imageFileName = article.getImageFileName();
-            String query = "INSERT INTO t_board (articleNO, parentNO, title, content, imageFileName, id)"
-                    + " VALUES (?, ? ,?, ?, ?, ?)";
+            String notice_yn = article.getNotice_yn();
+            String query = "INSERT INTO t_board (articleNO, parentNO, title, content, imageFileName, id, notice_yn)"
+                    + " VALUES (?, ? ,?, ?, ?, ?, ?)";
             System.out.println(query);
             pstmt = conn.prepareStatement(query);
             pstmt.setInt(1, articleNO);
@@ -163,6 +229,7 @@ public class BoardDAO {
             pstmt.setString(4, content);
             pstmt.setString(5, imageFileName);
             pstmt.setString(6, id);
+            pstmt.setString(7, notice_yn);
             pstmt.executeUpdate();
             pstmt.close();
             conn.close();

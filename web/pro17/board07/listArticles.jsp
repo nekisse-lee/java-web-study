@@ -8,6 +8,7 @@
 <c:set var="totArticles" value="${articlesMap.totArticles}"/>
 <c:set var="section" value="${articlesMap.section}"/>
 <c:set var="pageNum" value="${articlesMap.pageNum}"/>
+<c:set var="noticeList" value="${articlesMap.noticeArticlesList}"/>
 
 <%
     request.setCharacterEncoding("UTF-8");
@@ -56,7 +57,49 @@
             </tr>
         </c:when>
         <c:when test="${articlesList !=null }">
+            <tr align="center">
+
+
+            <c:forEach var="article" items="${noticeList }" varStatus="articleNum">
+
+
+                <tr align="center">
+                <td width="5%">${articleNum.count}</td>
+                <td width="10%">${article.id }</td>
+                <td align='left' width="35%">
+                    <span style="padding-right:30px"></span>
+                    <c:choose>
+                        <c:when test='${article.level > 1 }'>
+                            <c:forEach begin="1" end="${article.level }" step="1">
+                                <span style="padding-left:10px"></span>
+                            </c:forEach>
+                            <span style="font-size:12px;"><img src="${contextPath}/image/ico_re.png"/></span>
+                            <a class='cls1'
+                               href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title}</a>
+                        </c:when>
+                        <c:otherwise>
+                            <c:choose>
+                                <c:when test="${article.newArticle =='true'}">
+                                    <a class='cls1'
+                                       href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title }</a>
+                                    <img src="${contextPath}/image/ico_new.png"/>
+                                </c:when>
+                                <c:otherwise>
+                                    href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title }</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <td width="10%"><fmt:formatDate value="${article.writeDate}"/></td>
+
+            </c:forEach>
+            </tr>
+
+            </tr>
+
             <c:forEach var="article" items="${articlesList }" varStatus="articleNum">
+
                 <tr align="center">
                     <td width="5%">${articleNum.count}</td>
                     <td width="10%">${article.id }</td>
@@ -74,8 +117,8 @@
                             <c:otherwise>
                                 <c:choose>
                                     <c:when test="${article.newArticle =='true'}">
-                                <a class='cls1'
-                                   href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title }</a>
+                                        <a class='cls1'
+                                           href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title }</a>
                                         <img src="${contextPath}/image/ico_new.png"/>
                                     </c:when>
                                     <c:otherwise>

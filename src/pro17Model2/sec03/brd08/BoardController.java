@@ -94,12 +94,15 @@ public class BoardController extends HttpServlet {
                 String title = articleMap.get("title");
                 String content = articleMap.get("content");
                 String imageFileName = articleMap.get("imageFileName");
+                String notice_yn = articleMap.get("notice_yn");
 
                 articleVO.setParentNO(0);
                 articleVO.setId("hong");
                 articleVO.setTitle(title);
                 articleVO.setContent(content);
                 articleVO.setImageFileName(imageFileName);
+                articleVO.setNotice_yn(notice_yn);
+
                 articleNO = boardService.addArticle(articleVO);
                 if (imageFileName != null && imageFileName.length() != 0) {
                     File srcFile = new File(ARTICLE_IMAGE_REPO + "/" + "temp" + "/" + imageFileName);

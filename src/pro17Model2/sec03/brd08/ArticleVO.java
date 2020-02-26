@@ -14,6 +14,7 @@ public class ArticleVO {
     private String id;
     private Date writeDate;
     private boolean newArticle;
+    private String notice_yn;
 
     public ArticleVO() {
 
@@ -123,5 +124,11 @@ public class ArticleVO {
         this.writeDate = writeDate;
     }
 
+    public String getNotice_yn() {
+        return notice_yn;
+    }
 
+    public void setNotice_yn(String notice_yn) {
+        this.notice_yn = notice_yn;
+    }
 }
