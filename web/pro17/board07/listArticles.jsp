@@ -111,8 +111,10 @@
                                     <span style="padding-left:10px"></span>
                                 </c:forEach>
                                 <span style="font-size:12px;"><img src="${contextPath}/image/ico_re.png"/></span>
-                                <a class='cls1'
-                                   href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title}</a>
+
+                                <a href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}" class='cls1'>
+                                        ${article.title}
+                                </a>
                             </c:when>
                             <c:otherwise>
                                 <c:choose>
